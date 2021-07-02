@@ -1,0 +1,81 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+                <h1 class="text-center mt-5">Welcome Naijaschoice</h1>
+
+<ul>
+    {% for question in page_obj %}
+
+    <div class="row mt-3 pagination">
+        <div class="col-sm-12 m-auto text-center">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-text text-uppercase text-center fst-italic fw-lighter mb-3 mt-2"><a
+                            href="{% url 'detail' question.id %}">{{ question.question_text }}</a></p>
+                    <h5 class="card-title mb-3">{{question.question_title}}</h5>                    
+                    <a href="{% url 'detail' question.id %}" class="btn btn-outline-success">Vote</a>
+                    <a href="{% url 'results' question.id %}" class="btn btn-outline-info">results</a>
+                    <div class="row mt-4">
+                        <div class="share-col">
+                            {% load social_share %}
+                            {% post_to_facebook object_or_url '<img class="share-img" src="/staticfiles/img/fb.png">' %}
+                            {% post_to_twitter object_or_url  '' '<img class="share-img" src="/staticfiles/img/twitter.png">' %}
+                            {% post_to_whatsapp object_or_url '<img class="share-img" src="/staticfiles/img/whatsapp.png">' %}
+                            {% post_to_telegram "New Poll: {{object.title}}" object_or_url '<img class="share-img" src="/staticfiles/img/whatsapp.png">' %}
+                            
+
+                        </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>     
+        
+    </div>
+
+    
+
+   
+    
+{% endfor %} 
+
+<div class="pagination justify-content-end mt-3 fw-bolder">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a href="?page=1" class=" align-content-around fst-italic text-decoration-none">&laquo; First</a> |
+        <a href="?page={{ page_obj.previous_page_number }}" class=" align-content-around fst-italic text-decoration-none">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class=" align-content-around fst-italic text-decoration-none">Next</a> |
+        <a href="?page={{ page_obj.paginator.num_pages }}" class=" align-content-around fst-italic text-decoration-none">Last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
+<!-- 
+{% if page_obj.has_next %}
+<a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+{% endif %}
+<div class="d-flex justify-content-center" style="display:none;">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div> -->
+
+{% endblock%}
+
+
+
+
+
+
+

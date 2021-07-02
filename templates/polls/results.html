@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<p class="card-text text-uppercase text-center fst-italic fw-lighter mb-3 mt-3"><a
+        href="{% url 'detail' question.id %}">{{ question.question_text }}</a></p>
+<h1 class="mb-4 text-center mt-1">{{ question.question_title}}</h1>
+<ul class="list-group mb-5">
+    {% for choice in question.choice_set.all %}
+    <li class="list-group-item">
+        {{choice.choice_text}} <span class="badge bg-success float-end">
+            {{ choice.votes }} vote{{ choice.votes |pluralize }}
+        </span>
+    </li>
+    {% endfor %}
+
+</ul>
+<div class="row">
+    <div class="share-col m-auto col-sm-12 col-md-6 justify-content-sm-start gap-2 mt-1">
+        <a class="badge bg-success text-decoration-none" href="{% url 'index' %}">Back to polls</a>
+        <a class="badge bg-dark text-decoration-none" href="{% url 'detail' question.id%}">Vote Again? </a>
+    </div>
+       
+    <div class="share-col m-auto col-sm-12 col-md-6 justify-content-sm-end mt-1" >
+        {% load social_share %}
+        {% post_to_facebook object_or_url '<img class="share-img" src="/staticfiles/img/fb.png">' %}
+        {% post_to_twitter object_or_url '' '<img class="share-img" src="/staticfiles/img/twitter.png">' %}
+        {% post_to_whatsapp object_or_url '<img class="share-img" src="/staticfiles/img/whatsapp.png">' %}
+        {% post_to_telegram "New Poll: {{object.title}}" object_or_url '<img class="share-img" src="/staticfiles/img/whatsapp.png">' %}
+    </div>
+
+</div>
+
+<div class="mb-4  mt-3">
+    <div>
+        {% if new_comment %}
+        <div class="alert alert-success" role="alert">
+            Your comment is awaiting moderation
+        </div>
+        {% else %}
+        <h3>Leave a comment!</h3>
+        <form method="POST" class="form-group">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary" value="Post a reply">Submit</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+
+<div class="mt-4">
+    <h4 >
+        {{ question.comments.count }} Comment{{ question.comments.count |pluralize }}
+    </h4>
+</div>
+
+
+{% for question in question.comments.all %}
+
+<div class="comments">
+    <h5 class="font-weight-bolder capitalize">
+        {{ question.name }}
+        <span class="text-muted fw-lighter fst-italic">
+            {{ question.created_on }}
+        </span>
+    </h5>
+       <p>{{ question.body  }}</p>
+</div>
+{% endfor %}
+</div>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

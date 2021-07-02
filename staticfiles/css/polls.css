@@ -1,0 +1,21 @@
+body {
+  background: whitesmoke;
+}
+p > a {
+  text-decoration: none;
+  color: black;
+}
+.btn-outline-primary:hover {
+  background: #0d6efd !important;
+}
+
+.share-img {
+  width: 2em;
+}
+.share-img:hover {
+  width: 4em;
+}
+.share-col {
+  display: flex;
+  justify-content: center;
+}
