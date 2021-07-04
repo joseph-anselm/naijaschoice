@@ -1,15 +1,17 @@
 from django.db import models
+from django.db.models.deletion import CASCADE
+from django.db.models.fields.related import ForeignKey
 from django.utils import timezone
 import datetime
 from django.utils import timezone
+from taggit.managers import TaggableManager
 
 
 class Question(models.Model):
-    question_title = models.CharField(max_length=50, blank=False)
-    question_text = models.CharField(max_length=200)
+    question_title = models.CharField(max_length=200, blank=False)
     pub_date = models.DateTimeField('date published')
     slug_field = models.CharField(max_length=100, blank=False)
-    tags = models.CharField(max_length=100, blank=True)
+    tags = TaggableManager()
 
     def __str__(self):
         return self.question_title

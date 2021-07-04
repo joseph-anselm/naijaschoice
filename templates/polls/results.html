@@ -5,6 +5,7 @@
 <p class="card-text text-uppercase text-center fst-italic fw-lighter mb-3 mt-3"><a
         href="{% url 'detail' question.id %}">{{ question.question_text }}</a></p>
 <h1 class="mb-4 text-center mt-1">{{ question.question_title}}</h1>
+
 <ul class="list-group mb-5">
     {% for choice in question.choice_set.all %}
     <li class="list-group-item">
@@ -59,12 +60,11 @@
 {% for question in question.comments.all %}
 
 <div class="comments">
-    <h5 class="font-weight-bolder capitalize">
-        {{ question.name }}
-        <span class="text-muted fw-lighter fst-italic">
-            {{ question.created_on }}
-        </span>
-    </h5>
+    <div>
+        Comment {{ forloop.counter }} by <span class="text-muted fw-bold fst-italic">{{ question.name }}</span>
+        <span class="fw-lighter">{{ question.created_on }}</span>
+    </div>
+    
        <p>{{ question.body  }}</p>
 </div>
 {% endfor %}

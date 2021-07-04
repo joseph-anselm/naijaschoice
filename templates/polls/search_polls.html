@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+ {% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mt-5 m-auto">
+           
+                          
+                <center>
+                    {% if searched %}
+                    <h4>You searched for <span class="fw-lighter fst-italic">"{{searched}}" </span> </h4>
+                    
+                    
+                    <div class="card-body mb-3">
+                        {% for question in question %}
+                        <a href="{% url 'detail' question.id%}">{{ question }}</a></br>
+                        {% empty %}
+                        <p>There are no results for your search term.</p>
+                    
+                    
+                    
+                        {% endfor %}
+                    
+                        {% else %}
+                        <h1>You didn't enter a search Term!</h1>
+                        {% endif %}
+                    
+                    </div>
+                    <div class="share-col col-md-12 m-auto m-4">
+                        <a class="badge bg-secondary text-decoration-none m-5" href="{% url 'index' %}">Back to polls</a>
+                    
+                    </div>
+                </center>
+            
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

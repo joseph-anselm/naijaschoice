@@ -73,6 +73,13 @@ def detail(request, question_id):
     return render(request, 'polls/detail.html', {'question': question})
 
 
+# def searchbar(request):
+#     if request.method == 'GET':
+#         search = request.GET.get('search')
+#         post = Question.objects.all().filter()
+#         return render(request, 'polls/search_polls.html', {'post': post})
+
+
 # def polldetail(request, question_id):
 #     template_name = 'polls/polldetail.html'
 #     post = get_object_or_404(Question, pk=question_id)
@@ -96,11 +103,10 @@ def detail(request, question_id):
 #                                            'new_comment': new_comment,
 #                                            'form': form})
 
-
-def search_polls(request):
-    query = request.GET.get('p')
-    object_list = Question.objects.filter(tags__icontains=query)
-    context = {
-        'posts': object_list,
-    }
-    return render(request, "polls/search_polls.html", context)
+def searchbar(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        question = Question.objects.filter(question_title__icontains=searched)
+        return render(request, 'polls/search_polls.html', {'question': question, 'searched': searched, })
+    else:
+        return render(request, 'polls/search_polls.html', {})

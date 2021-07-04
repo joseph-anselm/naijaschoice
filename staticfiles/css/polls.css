@@ -19,3 +19,6 @@ p > a {
   display: flex;
   justify-content: center;
 }
+.searched {
+  color: aqua;
+}

@@ -13,8 +13,8 @@ class ChoiceInline(admin.TabularInline):
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    fieldsets = [(None, {'fields': ['question_title']}), (None, {'fields': ['question_text']}), (None, {'fields': ['slug_field']}),
-                 ('Date Information', {'fields': ['pub_date'], 'classes':['collapse']}), ]
+    fieldsets = [(None, {'fields': ['question_title']}), (None, {'fields': ['slug_field']}),
+                 ('Date Information', {'fields': ['pub_date'], 'classes':['collapse']}), (None, {'fields': ('tags',)}), ]
     inlines = [ChoiceInline]
 
 
