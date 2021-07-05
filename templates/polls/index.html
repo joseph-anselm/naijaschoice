@@ -4,6 +4,12 @@
 {% block content %}
 
                 <h1 class="text-center mt-5">Welcome Naijaschoice</h1>
+                <h6 class="fw-lighter fst-italic"><center>
+                    {% if tag %}
+                    <h2>Polls tagged with "{{ tag.name }}"</h2>
+                    {% endif %}
+                    </center>
+                </h6>
 
 <ul>
     {% for question in page_obj %}
@@ -15,7 +21,15 @@
                     <p class="card-text text-uppercase text-center fst-italic fw-lighter mb-3 mt-2"><a
                             href="{% url 'detail' question.id %}">{{ question.question_text }}</a></p>
                     <h5 class="card-title mb-3">{{question.question_title}}</h5> 
-                    <p class="tags">Tags: {{ question.tags.all|join:", " }}</p>
+                    <!-- <p class="tags">Tags: {{ question.tags.all|join:", " }}</p> -->
+
+                    {% for tag in question.tags.all %}
+                    <a href="{% url 'poll_list_by_tag' tag.slug %}">
+                        {{ tag.name }}
+                    </a>
+                    {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                    </p>
                     <a href="{% url 'detail' question.id %}" class="btn btn-outline-success">Vote</a>
                     <a href="{% url 'results' question.id %}" class="btn btn-outline-info">results</a>
                     <div class="row mt-4">

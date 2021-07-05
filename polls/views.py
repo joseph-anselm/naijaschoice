@@ -10,15 +10,25 @@ from .models import Question, Choice, Comments
 from django.urls import reverse
 from django.views.generic.list import ListView
 from .forms import CommentForm
+from taggit.models import Tag
 
 
-def index(request):
+def index(request, tag_slug=None):
     latest_question_list = Question.objects.all().order_by('-pub_date')
-    paginator = Paginator(latest_question_list, 5)
+    paginator = Paginator(latest_question_list, 4)
     page_number = request.GET.get('page', 1)
     page_obj = paginator. get_page(page_number)
-    context = {'page_obj': page_obj}
-    return render(request, 'polls/index.html', context)
+    # context = {'page_obj': page_obj}
+    tag = None
+    page_tags = None
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        page_tags = latest_question_list.filter(tags__in=[tag])
+        paginator = Paginator(page_tags, 2)
+        page_number = request.GET.get('page', 1)
+        page_obj = paginator. get_page(page_number)
+        # latest_question_list = latest_question_list.filter(tags__in=[tag])
+    return render(request, 'polls/index.html', {'page_obj': page_obj, 'tag': tag, 'page_tags': page_tags})
 
 
 def results(request, question_id):

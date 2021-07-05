@@ -14,8 +14,7 @@ urlpatterns = [
     # path('<int:question_id>/polldetail/', views.polldetail, name='polldetail'),
     # ex: /polls/5/vote/
     path('<int:question_id>/vote/', views.vote, name='vote'),
-    # path('tag/<slug:tag_slug>/',
-    #      views.detail, name='post_list_by_tag'),
+    path('tag/<slug:tag_slug>/', views.index, name='poll_list_by_tag'),
 
 
 
