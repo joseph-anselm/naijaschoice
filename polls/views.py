@@ -10,6 +10,7 @@ from .models import Question, Choice, Comments
 from django.urls import reverse
 from django.views.generic.list import ListView
 from .forms import CommentForm
+from django.db.models import Count
 from taggit.models import Tag
 
 
@@ -21,14 +22,18 @@ def index(request, tag_slug=None):
     # context = {'page_obj': page_obj}
     tag = None
     page_tags = None
+    poll_related = None
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
         page_tags = latest_question_list.filter(tags__in=[tag])
         paginator = Paginator(page_tags, 2)
         page_number = request.GET.get('page', 1)
         page_obj = paginator. get_page(page_number)
+
         # latest_question_list = latest_question_list.filter(tags__in=[tag])
-    return render(request, 'polls/index.html', {'page_obj': page_obj, 'tag': tag, 'page_tags': page_tags})
+    # List of similar posts
+        # poll_related = Question.tags.similar_objects()
+    return render(request, 'polls/index.html', {'page_obj': page_obj, 'tag': tag, 'page_tags': page_tags, 'poll_related': poll_related})
 
 
 def results(request, question_id):
