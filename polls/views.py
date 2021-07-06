@@ -22,7 +22,6 @@ def index(request, tag_slug=None):
     # context = {'page_obj': page_obj}
     tag = None
     page_tags = None
-    poll_related = None
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
         page_tags = latest_question_list.filter(tags__in=[tag])
@@ -33,7 +32,7 @@ def index(request, tag_slug=None):
         # latest_question_list = latest_question_list.filter(tags__in=[tag])
     # List of similar posts
         # poll_related = Question.tags.similar_objects()
-    return render(request, 'polls/index.html', {'page_obj': page_obj, 'tag': tag, 'page_tags': page_tags, 'poll_related': poll_related})
+    return render(request, 'polls/index.html', {'page_obj': page_obj, 'tag': tag, 'page_tags': page_tags})
 
 
 def results(request, question_id):

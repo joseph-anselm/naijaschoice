@@ -22,3 +22,6 @@ p > a {
 .searched {
   color: aqua;
 }
+.navbar-custom {
+  background: lightgreen;
+}
